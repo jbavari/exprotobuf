@@ -1,4 +1,4 @@
-defmodule Protobuf.Mixfile do
+defmodule Exprotobuf.Mixfile do
   use Mix.Project
 
   def project do
