@@ -1,9 +1,9 @@
-defmodule ProtobufTest do
-  use Protobuf.Case
+defmodule ExprotobufTest do
+  use Exprotobuf.Case
 
   test "can roundtrip encoding/decoding optional values in proto2" do
     defmodule RoundtripProto2 do
-      use Protobuf, """
+      use Exprotobuf, """
       message Msg {
         optional string f1 = 1;
         optional string f2 = 2 [default = "test"];
@@ -26,7 +26,7 @@ defmodule ProtobufTest do
 
   test "can roundtrip encoding/decoding optional values in proto3" do
     defmodule RoundtripProto3 do
-      use Protobuf, """
+      use Exprotobuf, """
       syntax = "proto3";
 
       message Msg {
@@ -51,7 +51,7 @@ defmodule ProtobufTest do
 
   test "can encode when protocol is extended with new optional field" do
     defmodule BasicProto do
-      use Protobuf, """
+      use Exprotobuf, """
       message Msg {
         required uint32 f1 = 1;
       }
@@ -60,7 +60,7 @@ defmodule ProtobufTest do
     old = BasicProto.Msg.new(f1: 1)
 
     defmodule BasicProto do
-      use Protobuf, """
+      use Exprotobuf, """
       message Msg {
         required uint32 f1 = 1;
         optional uint32 f2 = 2;
@@ -76,7 +76,7 @@ defmodule ProtobufTest do
 
   test "can encode when inject is used" do
     defmodule Msg do
-      use Protobuf, ["""
+      use Exprotobuf, ["""
       message Msg {
         required uint32 f1 = 1;
       }
@@ -91,7 +91,7 @@ defmodule ProtobufTest do
 
   test "can encode when inject and only are used" do
     defmodule Msg do
-      use Protobuf, ["""
+      use Exprotobuf, ["""
       message Msg {
         required uint32 f1 = 1;
       }
@@ -106,7 +106,7 @@ defmodule ProtobufTest do
 
   test "can encode when inject is used and module is nested" do
     defmodule Nested.Msg do
-      use Protobuf, ["""
+      use Exprotobuf, ["""
       message Msg {
         required uint32 f1 = 1;
       }
@@ -121,7 +121,7 @@ defmodule ProtobufTest do
 
   test "can encode when inject is used and definition loaded from a file" do
     defmodule Basic do
-      use Protobuf, from: Path.expand("./proto/simple.proto", __DIR__), inject: true
+      use Exprotobuf, from: Path.expand("./proto/simple.proto", __DIR__), inject: true
     end
     basic = Basic.new(f1: 1)
     encoded = Basic.encode(basic)
@@ -131,7 +131,7 @@ defmodule ProtobufTest do
 
   test "can decode when protocol is extended with new optional field" do
     defmodule BasicProto do
-      use Protobuf, """
+      use Exprotobuf, """
       message Msg {
         required uint32 f1 = 1;
       }
@@ -141,7 +141,7 @@ defmodule ProtobufTest do
     encoded = BasicProto.Msg.encode(old)
 
     defmodule BasicProto do
-      use Protobuf, """
+      use Exprotobuf, """
       message Msg {
         required uint32 f1 = 1;
         optional uint32 f2 = 2;
@@ -156,7 +156,7 @@ defmodule ProtobufTest do
 
   test "define records in namespace" do
     defmodule NamespacedRecordsProto do
-      use Protobuf, """
+      use Exprotobuf, """
          message Msg1 {
            required uint32 f1 = 1;
          }
@@ -175,7 +175,7 @@ defmodule ProtobufTest do
 
   test "define records in namespace with injection" do
     contents = quote do
-      use Protobuf, ["
+      use Exprotobuf, ["
        message InjectionTest {
            required uint32 f1 = 1;
        }
@@ -189,7 +189,7 @@ defmodule ProtobufTest do
 
   test "do not set default value for optional" do
     defmodule DefaultValueForOptionalsProto do
-      use Protobuf, "message Msg { optional uint32 f1 = 1; }"
+      use Exprotobuf, "message Msg { optional uint32 f1 = 1; }"
     end
     msg = DefaultValueForOptionalsProto.Msg.new()
     assert nil == msg.f1
@@ -197,7 +197,7 @@ defmodule ProtobufTest do
 
   test "set default value to [] for repeated" do
     defmodule DefaultValueForListsProto do
-      use Protobuf, "message Msg { repeated uint32 f1 = 1; }"
+      use Exprotobuf, "message Msg { repeated uint32 f1 = 1; }"
     end
     msg = DefaultValueForListsProto.Msg.new()
     assert [] == msg.f1
@@ -205,23 +205,23 @@ defmodule ProtobufTest do
 
   test "set default value if specified explicitly" do
     defmodule DefaultValueExplicitProto do
-      use Protobuf, "message Msg { optional uint32 f1 = 1 [default = 42]; }"
+      use Exprotobuf, "message Msg { optional uint32 f1 = 1 [default = 42]; }"
     end
     msg = DefaultValueExplicitProto.Msg.new()
     assert 42 == msg.f1
   end
 
   test "does not set default value if there is a type mismatch" do
-    assert_raise Protobuf.Parser.ParserError, fn ->
+    assert_raise Exprotobuf.Parser.ParserError, fn ->
       defmodule InvalidValueDefaultValueExplicitProto do
-        use Protobuf, "message Msg { optional uint32 f1 = 1 [default = -1]; }"
+        use Exprotobuf, "message Msg { optional uint32 f1 = 1 [default = -1]; }"
       end
     end
   end
 
   test "define a record in subnamespace" do
     defmodule SubnamespacedRecordProto do
-      use Protobuf, """
+      use Exprotobuf, """
         message Msg {
           message SubMsg {
             required uint32 f1 = 1;
@@ -242,7 +242,7 @@ defmodule ProtobufTest do
 
   test "define enum information module" do
     defmodule EnumInfoModProto do
-      use Protobuf, """
+      use Exprotobuf, """
         enum Version {
           V0_1 = 1;
           V0_2 = 2;
@@ -279,7 +279,7 @@ defmodule ProtobufTest do
 
   test "support define from a file" do
     defmodule ProtoFromFile do
-      use Protobuf, from: Path.expand("./proto/basic.proto", __DIR__)
+      use Exprotobuf, from: Path.expand("./proto/basic.proto", __DIR__)
     end
 
     basic = ProtoFromFile.Basic.new(f1: 1)
@@ -289,25 +289,25 @@ defmodule ProtobufTest do
 
   test "define a method to get proto defs" do
     defmodule ProtoDefsProto do
-      use Protobuf, "message Msg { optional uint32 f1 = 1; }"
+      use Exprotobuf, "message Msg { optional uint32 f1 = 1; }"
     end
-    defs = [{{:msg, ProtoDefsProto.Msg}, [%Protobuf.Field{name: :f1, fnum: 1, rnum: 2, type: :uint32, occurrence: :optional, opts: []}]}]
+    defs = [{{:msg, ProtoDefsProto.Msg}, [%Exprotobuf.Field{name: :f1, fnum: 1, rnum: 2, type: :uint32, occurrence: :optional, opts: []}]}]
     assert defs == ProtoDefsProto.defs
     assert defs == ProtoDefsProto.Msg.defs
   end
 
   test "defined a method defs to get field info" do
     defmodule FieldDefsProto do
-      use Protobuf, "message Msg { optional uint32 f1 = 1; }"
+      use Exprotobuf, "message Msg { optional uint32 f1 = 1; }"
     end
-    deff = %Protobuf.Field{name: :f1, fnum: 1, rnum: 2, type: :uint32, occurrence: :optional, opts: []}
+    deff = %Exprotobuf.Field{name: :f1, fnum: 1, rnum: 2, type: :uint32, occurrence: :optional, opts: []}
     assert deff == FieldDefsProto.Msg.defs(:field, 1)
     assert deff == FieldDefsProto.Msg.defs(:field, :f1)
   end
 
   test "defined method decode" do
     defmodule DecodeMethodProto do
-      use Protobuf, "message Msg { optional uint32 f1 = 1; }"
+      use Exprotobuf, "message Msg { optional uint32 f1 = 1; }"
     end
     module = DecodeMethodProto.Msg
     assert %{:__struct__ => ^module} = DecodeMethodProto.Msg.decode(<<>>)
@@ -315,7 +315,7 @@ defmodule ProtobufTest do
 
   test "extensions skip" do
     defmodule SkipExtensions do
-      use Protobuf, """
+      use Exprotobuf, """
         message Msg {
           required uint32 f1 = 1;
           extensions 100 to 200;
@@ -328,7 +328,7 @@ defmodule ProtobufTest do
 
   test "additional method via use_in" do
     defmodule AddViaHelper do
-      use Protobuf, "message Msg {
+      use Exprotobuf, "message Msg {
         required uint32 f1 = 1;
       }"
 
@@ -351,7 +351,7 @@ defmodule ProtobufTest do
 
   test "normalize unconventional (lowercase) styles of named messages and enums" do
     defmodule UnconventionalMessagesProto do
-      use Protobuf, """
+      use Exprotobuf, """
         message msgPackage {
           enum msgResponseType {
             NACK = 0;

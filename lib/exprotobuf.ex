@@ -1,11 +1,11 @@
-defmodule Protobuf do
-  alias Protobuf.Parser
-  alias Protobuf.Builder
-  alias Protobuf.Config
-  alias Protobuf.ConfigError
-  alias Protobuf.Field
-  alias Protobuf.OneOfField
-  alias Protobuf.Utils
+defmodule Exprotobuf do
+  alias Exprotobuf.Parser
+  alias Exprotobuf.Builder
+  alias Exprotobuf.Config
+  alias Exprotobuf.ConfigError
+  alias Exprotobuf.Field
+  alias Exprotobuf.OneOfField
+  alias Exprotobuf.Utils
 
   defmacro __using__(schema) when is_binary(schema) do
     config = %Config{namespace: __CALLER__.module, schema: schema}
@@ -74,10 +74,10 @@ defmodule Protobuf do
 
             [_type] ->
               %Config{
-                namespace: namespace, 
-                only: types, 
-                inject: true, 
-                from_file: file, 
+                namespace: namespace,
+                only: types,
+                inject: true,
+                from_file: file,
                 doc: doc,
                 use_google_types: use_google_types,
               }
@@ -95,18 +95,18 @@ defmodule Protobuf do
         %{from: file, inject: true} ->
           only = last_module(namespace)
           %Config{
-            namespace: namespace,  
-            only: [only], 
-            inject: true, 
-            from_file: file, 
+            namespace: namespace,
+            only: [only],
+            inject: true,
+            from_file: file,
             doc: doc,
             use_google_types: use_google_types,
           }
 
         %{from: file} ->
           %Config{
-            namespace: namespace, 
-            from_file: file, 
+            namespace: namespace,
+            from_file: file,
             doc: doc,
             use_google_types: use_google_types,
           }
@@ -253,9 +253,9 @@ defmodule Protobuf do
 
   # Returns the last module of a namespace
   defp last_module(namespace) do
-    namespace 
-    |> Module.split() 
-    |> List.last() 
+    namespace
+    |> Module.split()
+    |> List.last()
     |> String.to_atom()
   end
 

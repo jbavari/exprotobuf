@@ -1,7 +1,7 @@
-defmodule Protobuf.Encoder do
-  require Protobuf.Utils, as: Utils
-  alias Protobuf.Field
-  alias Protobuf.OneOfField
+defmodule Exprotobuf.Encoder do
+  require Exprotobuf.Utils, as: Utils
+  alias Exprotobuf.Field
+  alias Exprotobuf.OneOfField
 
   def encode(%{} = msg, defs) do
     fixed_defs =

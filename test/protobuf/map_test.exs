@@ -1,8 +1,8 @@
-defmodule Protobuf.Map.Test do
-  use Protobuf.Case
+defmodule Exprotobuf.Map.Test do
+  use Exprotobuf.Case
 
   defmodule Msgs do
-    use Protobuf, from: Path.expand("../proto/map.proto", __DIR__)
+    use Exprotobuf, from: Path.expand("../proto/map.proto", __DIR__)
   end
 
   @binary <<10, 16, 10, 4, 110, 97, 109, 101, 18, 8, 10, 6, 101, 108, 105, 120, 105, 114>>

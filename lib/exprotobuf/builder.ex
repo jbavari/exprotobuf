@@ -1,10 +1,10 @@
-defmodule Protobuf.Builder do
+defmodule Exprotobuf.Builder do
   @moduledoc false
 
-  alias Protobuf.Config
+  alias Exprotobuf.Config
 
-  import Protobuf.DefineEnum, only: [def_enum: 3]
-  import Protobuf.DefineMessage, only: [def_message: 3]
+  import Exprotobuf.DefineEnum, only: [def_enum: 3]
+  import Exprotobuf.DefineMessage, only: [def_message: 3]
 
   def define(msgs, %Config{inject: inject} = config) do
     # When injecting, use_in is not available, so we don't need to use @before_compile
@@ -83,11 +83,11 @@ defmodule Protobuf.Builder do
           item_type in [:msg, :proto3_msg, :enum],
           into: [] do
         if only != [] do
-          is_child? = 
-            Enum.any?(only, fn o -> 
+          is_child? =
+            Enum.any?(only, fn o ->
               o != item_name and is_child_type?(item_name, o)
             end)
-          
+
           last_mod = last_module(item_name)
           if last_mod in only or is_child? do
             case item_type do

@@ -1,8 +1,8 @@
-defmodule Protobuf.Wrappers.Test do
-  use Protobuf.Case
+defmodule Exprotobuf.Wrappers.Test do
+  use Exprotobuf.Case
 
   defmodule Proto do
-    use Protobuf,
+    use Exprotobuf,
       use_package_names: true,
       use_google_types: true,
       from: Path.expand("../proto/wrappers.proto", __DIR__)
