@@ -1,4 +1,4 @@
-defmodule Protobuf.DefineEnum do
+defmodule Exprotobuf.DefineEnum do
   @moduledoc false
 
   @doc """
@@ -30,7 +30,7 @@ defmodule Protobuf.DefineEnum do
       quote do
         defmodule unquote(name) do
           @moduledoc false
-          unquote(Protobuf.Config.doc_quote(doc))
+          unquote(Exprotobuf.Config.doc_quote(doc))
           unquote(contents)
           def value(_), do: nil
           def atom(_), do: nil

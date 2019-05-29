@@ -1,7 +1,7 @@
-defmodule Protobuf.Utils do
+defmodule Exprotobuf.Utils do
   @moduledoc false
-  alias Protobuf.OneOfField
-  alias Protobuf.Field
+  alias Exprotobuf.OneOfField
+  alias Exprotobuf.Field
 
   def convert_to_record(map, module) do
     module.record

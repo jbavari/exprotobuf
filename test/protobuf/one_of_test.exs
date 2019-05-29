@@ -1,8 +1,8 @@
-defmodule Protobuf.Oneof.Test do
-  use Protobuf.Case
+defmodule Exprotobuf.Oneof.Test do
+  use Exprotobuf.Case
 
   defmodule Msgs do
-    use Protobuf, from: Path.expand("../proto/one_of.proto", __DIR__)
+    use Exprotobuf, from: Path.expand("../proto/one_of.proto", __DIR__)
   end
 
   test "can create one_of protos" do
@@ -13,7 +13,7 @@ defmodule Protobuf.Oneof.Test do
   test "can encode simple one_of protos" do
     msg = Msgs.SampleOneofMsg.new(one: "test", foo: {:body, "xxx"})
 
-    encoded = Protobuf.Serializable.serialize(msg)
+    encoded = Exprotobuf.Serializable.serialize(msg)
     binary = <<10, 4, 116, 101, 115, 116, 26, 3, 120, 120, 120>>
 
     assert binary == encoded
@@ -29,8 +29,8 @@ defmodule Protobuf.Oneof.Test do
   test "stucture parsed simple one_of proto properly" do
     defs = Msgs.SampleOneofMsg.defs(:field, :foo)
 
-    assert %Protobuf.OneOfField{fields: [%Protobuf.Field{fnum: 3, name: :body, occurrence: :optional, opts: [], rnum: 3, type: :string},
-              %Protobuf.Field{fnum: 4, name: :code, occurrence: :optional, opts: [], rnum: 3, type: :uint32}], name: :foo, rnum: 3} = defs
+    assert %Exprotobuf.OneOfField{fields: [%Exprotobuf.Field{fnum: 3, name: :body, occurrence: :optional, opts: [], rnum: 3, type: :string},
+              %Exprotobuf.Field{fnum: 4, name: :code, occurrence: :optional, opts: [], rnum: 3, type: :uint32}], name: :foo, rnum: 3} = defs
 
   end
 
@@ -45,7 +45,7 @@ defmodule Protobuf.Oneof.Test do
     msg = Msgs.AdvancedOneofMsg.new(one: Msgs.SubMsg.new(test: "xxx"), foo: {:body, Msgs.SubMsg.new(test: "yyy")})
 
 
-    encoded = Protobuf.Serializable.serialize(msg)
+    encoded = Exprotobuf.Serializable.serialize(msg)
 
     binary = <<10, 5, 10, 3, 120, 120, 120, 26, 5, 10, 3, 121, 121, 121>>
 
@@ -61,7 +61,7 @@ defmodule Protobuf.Oneof.Test do
 
   test "can encode one_of protos with one_of field on first position" do
     msg = Msgs.ReversedOrderOneOfMsg.new(foo: {:code, 32}, bar: "hi")
-    enc_msg = Protobuf.Serializable.serialize(msg)
+    enc_msg = Exprotobuf.Serializable.serialize(msg)
 
     assert is_binary(enc_msg)
   end

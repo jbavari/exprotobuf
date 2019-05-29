@@ -1,6 +1,6 @@
-defmodule Protobuf.Parse.Test do
-  use Protobuf.Case
-  alias Protobuf.Parser
+defmodule Exprotobuf.Parse.Test do
+  use Exprotobuf.Case
+  alias Exprotobuf.Parser
 
   test "parse string" do
     msg = "message Msg { required uint32 field1 = 1; }"

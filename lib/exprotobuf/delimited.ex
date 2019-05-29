@@ -1,4 +1,4 @@
-defmodule Protobuf.Delimited do
+defmodule Exprotobuf.Delimited do
   @moduledoc """
   Handles serialization/deserialization of multi-message encoded binaries.
   """

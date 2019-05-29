@@ -1,11 +1,11 @@
-defmodule Protobuf do
-  alias Protobuf.Parser
-  alias Protobuf.Builder
-  alias Protobuf.Config
-  alias Protobuf.ConfigError
-  alias Protobuf.Field
-  alias Protobuf.OneOfField
-  alias Protobuf.Utils
+defmodule Exprotobuf do
+  alias Exprotobuf.Parser
+  alias Exprotobuf.Builder
+  alias Exprotobuf.Config
+  alias Exprotobuf.ConfigError
+  alias Exprotobuf.Field
+  alias Exprotobuf.OneOfField
+  alias Exprotobuf.Utils
 
   defmacro __using__(schema) when is_binary(schema) do
     config = %Config{namespace: __CALLER__.module, schema: schema}

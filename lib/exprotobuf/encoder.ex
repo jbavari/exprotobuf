@@ -1,7 +1,7 @@
-defmodule Protobuf.Encoder do
-  alias Protobuf.Utils
-  alias Protobuf.Field
-  alias Protobuf.OneOfField
+defmodule Exprotobuf.Encoder do
+  alias Exprotobuf.Utils
+  alias Exprotobuf.Field
+  alias Exprotobuf.OneOfField
 
   def encode(%{} = msg, defs) do
     fixed_defs = for {{type, mod}, fields} <- defs, into: [] do

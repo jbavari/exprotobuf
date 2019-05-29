@@ -1,10 +1,10 @@
-defmodule Protobuf.Builder do
+defmodule Exprotobuf.Builder do
   @moduledoc false
 
-  alias Protobuf.Config
+  alias Exprotobuf.Config
 
-  import Protobuf.DefineEnum,    only: [def_enum: 3]
-  import Protobuf.DefineMessage, only: [def_message: 3]
+  import Exprotobuf.DefineEnum,    only: [def_enum: 3]
+  import Exprotobuf.DefineMessage, only: [def_message: 3]
 
   def define(msgs, %Config{inject: inject} = config) do
     # When injecting, use_in is not available, so we don't need to use @before_compile

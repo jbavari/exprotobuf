@@ -1,11 +1,11 @@
-defmodule Protobuf.DefineMessage do
+defmodule Exprotobuf.DefineMessage do
   @moduledoc false
 
-  alias Protobuf.Decoder
-  alias Protobuf.Encoder
-  alias Protobuf.Field
-  alias Protobuf.OneOfField
-  alias Protobuf.Delimited
+  alias Exprotobuf.Decoder
+  alias Exprotobuf.Encoder
+  alias Exprotobuf.Field
+  alias Exprotobuf.OneOfField
+  alias Exprotobuf.Delimited
 
   def def_message(name, fields, [inject: inject, doc: doc, syntax: syntax]) when is_list(fields) do
     struct_fields = record_fields(fields)
@@ -26,7 +26,7 @@ defmodule Protobuf.DefineMessage do
         unquote(meta_information())
         unquote(constructors(name))
 
-        defimpl Protobuf.Serializable do
+        defimpl Exprotobuf.Serializable do
           def serialize(object), do: unquote(name).encode(object)
         end
       end
@@ -39,7 +39,7 @@ defmodule Protobuf.DefineMessage do
 
         defmodule unquote(name) do
           @moduledoc false
-          unquote(Protobuf.Config.doc_quote(doc))
+          unquote(Exprotobuf.Config.doc_quote(doc))
           @root root
           @record unquote(struct_fields)
           defstruct @record
@@ -58,7 +58,7 @@ defmodule Protobuf.DefineMessage do
             Module.eval_quoted(__MODULE__, use_in, [], __ENV__)
           end
 
-          defimpl Protobuf.Serializable do
+          defimpl Exprotobuf.Serializable do
             def serialize(object), do: unquote(name).encode(object)
           end
         end
